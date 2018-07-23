@@ -1,0 +1,4 @@
+*.iso
+*.img
+*.qcow2
+.vagrant

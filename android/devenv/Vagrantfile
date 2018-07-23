@@ -1,0 +1,62 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# This is the mount point for the sync_folders in the VM
+SRCMOUNT = "/opt/src"
+LOCALDEV = "/local-dev"
+
+CWD = File.dirname(File.expand_path(__FILE__))
+
+# -----------------------------------------------------------------------------
+# Vagrant definition
+# -----------------------------------------------------------------------------
+Vagrant.require_version ">= 1.7.4"
+Vagrant.configure("2") do |config|
+
+  # disable rsyncing folders
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # common settings: ssh login
+  #config.ssh.username = "vagrant"
+  #config.ssh.forward_agent = true
+
+  # -----------------------------------
+  # 1. VM for itop
+  # -----------------------------------
+  config.vm.define "andev" do |andev|
+    andev.vm.box = "ubuntu/xenial64"
+    
+    # shared folders
+    andev.vm.synced_folder ENV.fetch('LOCALDEVDIR', "../.."), "#{LOCALDEV}"
+    andev.vm.synced_folder "..", "#{SRCMOUNT}"
+
+    # provisioning
+    andev.vm.provision "shell", inline: <<-SCRIPT
+      set -x
+      # timezone
+      export TZ=Asia/Shanghai
+    
+      # setup scripts
+      cd #{LOCALDEV}/scripts/ubuntu16
+      ./setup_box.sh
+      # ./setup_docker-ce.sh 10.0.2.2:5000
+      # ./setup_docker-compose.sh
+      ./setup_aarch64-devel.sh
+      # apt-get install samba-client telnet
+    SCRIPT
+
+    # VirtualBox
+    andev.vm.hostname = "andev"
+    #andev.vm.network "public_network" bridge: ""
+    andev.vm.network "forwarded_port", guest: 20022, host: 20022
+    andev.vm.network "forwarded_port", guest: 5904,  host: 5904
+    andev.vm.provider "virtualbox" do |vb|
+      vb.name = "machine-andev"
+      vb.cpus = 4
+      vb.memory = 4096
+      vb.customize ['modifyvm', :id, '--description', 'VM for android-arm64 devel']
+      vb.customize ['modifyvm', :id, '--nictype1', 'virtio']
+    end
+  end
+
+end

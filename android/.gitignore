@@ -1,0 +1,5 @@
+*/*.iso
+*/*.img
+*/*.qcow2
+*/*.log
+.vagrant
