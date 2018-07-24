@@ -1,20 +1,24 @@
 #!/bin/sh
 #
+# Hisilicon Hi3798C V200 
+# CPU: Quad core Cortex A53 (15K DMIPS)
+# GPU: ARM Mali-T720 OpenGL ES 3.1/2.0, OpenVG1.1, EGL, and Imprex 2.0 PQ engine# Android 5.x
+#
 
 MYPATH=$(dirname $(readlink -f $0))
 
 # Customized settings
-MEM=2048M
+MEM=1024M
 SMP=2
-CPU=cortex-a57
-MAC='52:54:00:09:a4:38'
-SSH=20022
-VNC=:2
+CPU=cortex-a53
+MAC='52:54:00:09:a4:78'
+SSH=40022
+VNC=:6
 QEMU=qemu-system-aarch64
 
 # ISO and image disks
-CDR_IMG=$MYPATH/debian-9.5.0-arm64-DVD-1.iso
-HDA_IMG=./debian9-aa64.qcow2
+CDR_IMG=$MYPATH/android-1.iso
+HDA_IMG=./android5-aa64.qcow2
 
 # Qemu boot parameters
 BOOT_IMG="-drive file=$MYPATH/QEMU_EFI.img,format=raw,if=pflash \
