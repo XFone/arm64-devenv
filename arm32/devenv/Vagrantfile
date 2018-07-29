@@ -1,0 +1,62 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# This is the mount point for the sync_folders in the VM
+SRCMOUNT = "/opt/src"
+LOCALDEV = "/local-dev"
+
+CWD = File.dirname(File.expand_path(__FILE__))
+
+# -----------------------------------------------------------------------------
+# Vagrant definition
+# -----------------------------------------------------------------------------
+Vagrant.require_version ">= 1.7.4"
+Vagrant.configure("2") do |config|
+
+  # disable rsyncing folders
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # common settings: ssh login
+  #config.ssh.username = "vagrant"
+  #config.ssh.forward_agent = true
+
+  # -----------------------------------
+  # 1. VM for itop
+  # -----------------------------------
+  config.vm.define "armdev" do |armdev|
+    armdev.vm.box = "generic/debian9"
+    
+    # shared folders
+    armdev.vm.synced_folder ENV.fetch('LOCALDEVDIR', "../.."), "#{LOCALDEV}"
+    armdev.vm.synced_folder "..", "#{SRCMOUNT}"
+
+    # provisioning
+    armdev.vm.provision "shell", inline: <<-SCRIPT
+      set -x
+      # timezone
+      export TZ=Asia/Shanghai
+    
+      # setup scripts
+      cd #{LOCALDEV}/scripts/debian9
+      ./setup_box.sh
+      # ./setup_docker-ce.sh 10.0.2.2:5000
+      # ./setup_docker-compose.sh
+      ./setup_aarch64-devel.sh
+      # apt-get install samba-client telnet
+    SCRIPT
+
+    # VirtualBox
+    armdev.vm.hostname = "armdev"
+    #armdev.vm.network "public_network" bridge: ""
+    armdev.vm.network "forwarded_port", guest: 30022, host: 30022
+    armdev.vm.network "forwarded_port", guest: 5904,  host: 5904
+    armdev.vm.provider "virtualbox" do |vb|
+      vb.name = "machine-armdev"
+      vb.cpus = 4
+      vb.memory = 4096
+      vb.customize ['modifyvm', :id, '--description', 'VM for arm32/64 devel']
+      vb.customize ['modifyvm', :id, '--nictype1', 'virtio']
+    end
+  end
+
+end

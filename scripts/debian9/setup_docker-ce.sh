@@ -39,7 +39,8 @@ fi
 echo "🌞  Setup docker Comunity Edition (stable) ..."
 
 # Install devicemapper storage driver.
-apt-get remove docker docker-engine docker.io
+apt-get remove -y docker.io
+apt-get remove -y docker docker-engine
 apt-get install -y lvm2 apt-transport-https ca-certificates curl gnupg2 software-properties-common
 
 # Set up the stable repository.
@@ -72,6 +73,7 @@ if [ -n "$DISK_DEVICE" ]; then
   cat << EOF > /etc/docker/daemon.json
 {
   "insecure-registries": ["$INSECURE_URL"],
+  "registry-mirrors": ["https://registry.docker-cn.com"]
   "storage-driver": "devicemapper",
   "storage-opts": [
     "dm.thinpooldev=/dev/mapper/docker-thinpool",
@@ -103,6 +105,7 @@ else
   cat << EOF > /etc/docker/daemon.json
 {
   "insecure-registries": ["$INSECURE_URL"]
+  "registry-mirrors": ["https://registry.docker-cn.com"]
 }
 EOF
 fi
