@@ -1,6 +1,6 @@
 # How to use this develepment environment
 
-## Rebuild image and run
+## 1. Rebuild image and run
 
 * *Fast gem source in China
 
@@ -21,3 +21,11 @@ vagrant plugin install vagrant-vbguest
 ```Bash
 vagrant up
 ```
+
+## 2. Setup Android Development Environmnet
+
+```Bash
+vagrant ssh
+```
+
+* Next step: see [Download and Build Android kernel](../README.md#Android%20Kernel)

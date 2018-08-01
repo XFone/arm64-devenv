@@ -1,4 +1,8 @@
 #!/bin/bash
+# 
+# Boot Android kernel in QEMU
+# Usage: launch-android.sh [arch]
+#      [arch]  - arm, arm64, x86, x86_64 (default)
 
 set -e
 
@@ -15,35 +19,35 @@ case "$ARCH" in
 arm)
     QEMU_OPTS="-cpu cortex-a15 -machine type=virt"
     KERNEL_CMDLINE='console=ttyAMA0,38400 earlycon=pl011,0x09000000 debug nosmp drm.debug=0x0 rootwait androidboot.selinux=permissive'
-    KERNEL=${LINUX_PATH}/arch/arm/boot/zImage
+    KERNEL=${LINUX_PATH}/kernel/arch/arm/boot/zImage
     ;;
 arm64)
     QEMU_ARCH="aarch64"
     QEMU_OPTS="-cpu cortex-a57 -machine type=virt"
     KERNEL_CMDLINE='console=ttyAMA0,38400 earlycon=pl011,0x09000000 nosmp drm.debug=0x0 rootwait rootdelay=5 androidboot.selinux=permissive'
-    KERNEL=${LINUX_PATH}/arch/arm64/boot/Image
+    KERNEL=${LINUX_PATH}/kernel/arch/arm64/boot/Image
     ;;
 x86_64)
     QEMU_ARCH="x86_64"
-    KERNEL=${LINUX_PATH}/arch/x86_64/boot/bzImage
+    KERNEL=${LINUX_PATH}/kernel/arch/x86_64/boot/bzImage
     QEMU_OPTS="-enable-kvm -smp 4"
     KERNEL_CMDLINE='console=tty0 console=ttyS0 debug drm.debug=0x0 androidboot.selinux=permissive'
     ;;
 x86)
     QEMU_ARCH="x86"
-    KERNEL=${LINUX_PATH}/arch/x86/boot/bzImage
+    KERNEL=${LINUX_PATH}/kernel/arch/x86/boot/bzImage
     QEMU_OPTS="-enable-kvm -smp 4"
     KERNEL_CMDLINE='console=tty0 console=ttyS0 debug drm.debug=0x0 androidboot.selinux=permissive'
     ;;
 esac
 
 if [ ! -f ${PROJECT_PATH}/boot.img -o \
-      ${LINUX_PATH}/arch/${ARCH}/boot/bzImage -nt ${PROJECT_PATH}/boot.img -o \
+      ${LINUX_PATH}/kernel/arch/${ARCH}/boot/bzImage -nt ${PROJECT_PATH}/boot.img -o \
       ${ANDROID_IMAGE_PATH}/linaro_${ARCH}/ramdisk.img -nt ${PROJECT_PATH}/boot.img ]; then
 
     echo "Generating ${PROJECT_PATH}/boot.img ..."
     ${ANDROID_TOOLS_PATH}/mkbootimg/mkbootimg \
-        --kernel ${LINUX_PATH}/arch/${ARCH}/boot/bzImage \
+        --kernel ${LINUX_PATH}/kernel/arch/${ARCH}/boot/bzImage \
         --ramdisk ${ANDROID_IMAGE_PATH}/ramdisk.img \
         --output ${PROJECT_PATH}/boot.img \
         --pagesize 2048 \
