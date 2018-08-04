@@ -47,21 +47,46 @@ Table of Contents
         - [Run Android Emulator](#run-android-emulator)
         - [Run Android in QEMU manually](#run-android-in-qemu-manually)
         - [Other Useful References](#other-useful-references)
+    - [Run Android in ARMv8](#run-android-in-armv8)
     - [Run Android in Real Machine - Hi3798cv200](#run-android-in-real-machine---hi3798cv200)
 
 ## Android SDK and NDK
 
 - [Android Studio - Official Download](https://developer.android.google.cn/studio/#downloads)
     - Command line tools only: [sdk-tools-linux-4333796.zip](https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip)
-  
+    - Android SDK Docker Image - [docker: thyrlian/AndroidSDK](https://github.com/thyrlian/AndroidSDK)
+        - SSH + VNC + NFS remote accessible
+
 - [NDK Stable r17b - Official Download](https://developer.android.google.cn/ndk/downloads/)
     - android-ndk-linux: [android-ndk-r17b-linux-x86_64](https://dl.google.com/android/repository/android-ndk-r17b-linux-x86_64.zip)
+
+Setting up ccache (optional):
+
+```Bash
+export USE_CCACHE=1
+# By default the cache will be stored in ~/.ccache
+export CCACHE_DIR=<path-to-your-cache-directory>
+prebuilt/linux-x86/ccache/ccache -M 50G
+```
 
 ## Android Kernel
 
 ### Which Kernel Branch to Use
 
+Android version and kernel release:
+
+|Android Version    |API Level  |Linux Kernel in AOSP|
+|-------------------|-----------|--------------------|
+|4.3   Jelly Bean   |18         |3.4.39   |
+|4.4   Kit Kat      |19, 20     |3.10     |
+|5.x   Lollipop     |21, 22     |3.16.1   |
+|6.0   Marshmallow  |23         |3.18.10  |
+|7.0   Nougat       |24         |4.4.1    |
+|7.1   Nougat       |25         |4.4.1    |
+|8.0   Oreo         |26         |4.10     |
+
 Notes of kernel version:
+
 1. qemu2 uses 'git://mirrors.ustc.edu.cn/aosp/kernel/goldfish -b android-4.4'
 2. arm64 uses 'git://mirrors.ustc.edu.cn/aosp/kernel/arm64 -b android-8.1.0_r0.79'
 3. x86_64 has 'git://mirrors.ustc.edu.cn/aosp/kernel/x86_64 -b android-8.0.0_r0.6'
@@ -176,11 +201,7 @@ Build AOSP (branch android-6.0.1_r81, **android-8.1.0_r41**):
 ```Bash
 mkdir -p $ANDROID_PATH ; cd $ANDROID_PATH
 repo init -u git://mirrors.ustc.edu.cn/aosp/platform/manifest --depth 1 -b android-8.1.0_r41
-
-# cd .repo ; git clone https://github.com/robherring/android_manifest.git -b master local_manifests ; cd ..
 repo sync -c --no-tags --no-clone-bundle
-
-#cd device/linaro/generic ; make defconfig && make all ; cd ../../..
 
 source build/envsetup.sh
 #lunch aosp_x86_64-eng USE_CCACHE=1 CCACHE_DIR=ccache
@@ -212,8 +233,6 @@ make -j $(nproc)
 
 ### Run Android Emulator
 
-_TODO_
-
 In Linux:
 
 ```Bash
@@ -238,13 +257,28 @@ Make boot image and launch emulator:
 ### Other Useful References
 
 1. [Building Android for Qemu: A Step-by-Step Guide](https://www.collabora.com/news-and-blog/blog/2016/09/02/building-android-for-qemu-a-step-by-step-guide/)
-    + only for aosp version 6.x.x
+    + only for aosp version 6.x
+    + uses '[Linaro Device Configs](https://github.com/robherring/android_manifest)'
     + **Virglrenderer** creates a virtual 3D GPU, that allows the Qemu guest to use the graphics capabilities of the host machine.
 
 2. [How to Build and Run Android L 64-bit ARM in QEMU](https://www.cnx-software.com/2014/08/23/how-to-build-and-run-android-l-64-bit-arm-in-qemu/)
+    + Linaro 13.11 Release with Linux Kernel 3.12 and Android 4.4
+    + _How to Extract a Device Tree File from Android Firmware Files_
 
 3. [预编译 Android 模拟器专用内核 2017-12-23](https://www.wolfcstech.com/2017/12/23/qemu_android_kernel/)
     + use "$AOSP/prebuilts/qemu-kernel/build-kernel.sh"
+
+## Run Android in ARMv8
+
+* [linaro armv8 project](https://www.linaro.org/initiatives/armv8/)
+    + [downloads](https://www.linaro.org/latest/downloads/)
+    + [Linaro Android Git Hosting](https://android-git.linaro.org/)
+    ```Bash
+    # according to 'Building Android for Qemu: A Step-by-Step Guide'
+    cd .repo ; git clone https://github.com/robherring/android_manifest.git -b master local_manifests ; cd ..
+    repo sync -c --no-tags --no-clone-bundle
+    cd device/linaro/generic ; make defconfig && make all ; cd ../../..
+    ```
 
 ## Run Android in Real Machine - Hi3798cv200
 

@@ -4,7 +4,7 @@
 #
 
 # repo settings
-REPO_URL="https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/"
+REPO_URL="https://mirrors.tuna.tsinghua.edu.cn/git/git-repo"
 #REPO_URL="https://gerrit-googlesource.proxy.ustclug.org/git-repo"
 echo "REPO_URL    = \"$REPO_URL\""
 

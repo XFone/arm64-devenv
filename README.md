@@ -1,17 +1,30 @@
 # Development Environment and Tools for ARM64 (aarch64), Android and Container
 
-<!-- markdownlint-disable MD004 MD007 MD012 -->
+<!-- markdownlint-disable MD004 MD007 MD012 MD036 -->
 
-## Tasks
+## Android
 
-## References
+- See [android devel](./android/README.md)
 
-### 1. ARM64 vs AARCH64
+### Android in Virtual Machine
 
-[Differences between arm64 and aarch64](https://stackoverflow.com/questions/31851611/differences-between-arm64-and-aarch64)
+1. [How to Run Android Apps in Linux with AndroVM](https://www.cnx-software.com/2013/03/01/how-to-run-android-apps-in-linux-with-androvm/)
+    - [androvm.org](http://androvm.org) now is [GenyMotion](https://www.genymotion.com/)
 
-> It seems that ARM64 was created by Apple and AARCH64 by the others, most notably GNU/GCC guys.
+2. [GenyMobile](https://www.genymobile.com/) owns [GenyMotion - Android as a Service](https://www.genymotion.com/)
+    > _Cloud-based Android virtual devices to boost your test automation or run your app in your website_
+    1. PaaS (Virtual images on your cloud provider) - $0.5/hour per VD (+cloud providers fees)
+    2. SaaS (Android virtual devices available on SaaS) - Pricing starts at 200$/month
 
-[The LLVM 64-bit ARM64/AArch64 Back-Ends Have Merged](http://www.phoronix.com/scan.php?page=news_item&px=MTY5ODk)
+3. [Shashlik](http://www.shashlik.io/)
+    > _ANDROID APPLICATIONS ON REAL LINUX_
+    - [github](https://github.com/shashlik)
 
-> AArch64 is the 64-bit state introduced in the Armv8-A architecture 
+### Android in Linux Container
+
+- See [android in lxc](./android/lxc/README.md)
+
+### Android Emulator in Docker
+
+- See [android in docker](./android/docker/README.md)
+
