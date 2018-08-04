@@ -3,3 +3,4 @@
 */*.qcow2
 */*.log
 .vagrant
+.DS_Store
