@@ -24,6 +24,9 @@ sudo apt-get install -y bison flex zip gperf g++-multilib gcc-multilib     \
     ccache  xsltproc zlib1g-dev libx11-dev libgl1-mesa-dev libc6-dev-i386  \
     lib32ncurses5-dev lib32z1-dev libxml2-utils
 
+# packages for emulator and qemu: Qt-5.7+
+# sudo apt-get install -y libqt5widgets5
+
 # android-<version> settings
 case "$1" in
   6)
@@ -40,16 +43,10 @@ case "$1" in
     mv $GLIBC_LD_PATH/ld $GLIBC_LD_PATH/ld.orig
     cp /usr/bin/ld.gold $GLIBC_LD_PATH/ld
     ;;
-  8)
-    # TODO
+  7 | 8)
+    # uses openjdk-8
+    sudo update-java-alternatives --jre-headless --jre -s java-1.8.0-openjdk-amd64
     ;;
   *)
     ;;
 esac
-
-if [ -n "$1" ]; then
-  if [ $1 == "6" ]; then
-
-
-  fi
-fi
