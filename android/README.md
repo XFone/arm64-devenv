@@ -44,8 +44,9 @@ Table of Contents
         - [AOSP Mirros and Resouces](#aosp-mirros-and-resouces)
     - [Run Android in QEMU](#run-android-in-qemu)
         - [Building Android for QEMU, x86_64 or arm64](#building-android-for-qemu-x8664-or-arm64)
+        - [Manage Android Virtual Device (AVD)](#manage-android-virtual-device-avd)
         - [Run Android Emulator](#run-android-emulator)
-        - [Run Android in QEMU manually](#run-android-in-qemu-manually)
+        - [Run Android in QEMU manually (TODO)](#run-android-in-qemu-manually-todo)
         - [Other Useful References](#other-useful-references)
     - [Run Android in ARMv8](#run-android-in-armv8)
     - [Run Android in Real Machine - Hi3798cv200](#run-android-in-real-machine---hi3798cv200)
@@ -83,11 +84,12 @@ Android version and kernel release:
 |6.0   Marshmallow  |23         |3.18.10  |
 |7.0   Nougat       |24         |4.4.1    |
 |7.1   Nougat       |25         |4.4.1    |
-|8.0   Oreo         |26         |4.10     |
+|8.0   Oreo         |26         |4.9      |
+|8.1   Oreo         |27         |4.10     |
 
 Notes of kernel version:
 
-1. qemu2 uses 'git://mirrors.ustc.edu.cn/aosp/kernel/goldfish -b android-4.4'
+1. qemu2 uses 'git://mirrors.ustc.edu.cn/aosp/kernel/goldfish -b android-goldfish-3.18'
 2. arm64 uses 'git://mirrors.ustc.edu.cn/aosp/kernel/arm64 -b android-8.1.0_r0.79'
 3. x86_64 has 'git://mirrors.ustc.edu.cn/aosp/kernel/x86_64 -b android-8.0.0_r0.6'
 
@@ -105,6 +107,13 @@ goldfish and ranchu.
         - android-4.4+ (future branches)
             - emulator kernel development happens in common.git
         - Current work: goldfish_pipe, **goldfish_dma** (60fps video)
+
+* See [Android Platform release notes](https://developer.android.google.cn/studio/releases/platforms)
+    + Android 9 (API level 28)   - Revision 1 (August 2018)
+    + Android 8.1 (API level 27) - Revision 1 (December 2017)
+    + Android 8.0 (API level 26) - Revision 2 (August 2017)
+    + Android 7.1 (API level 25) - Revision 3 (December 2016) **arm64-v8a**
+    + Android 7.0 (API level 24) - Revision 1 (August 2016)   **arm64-v8a**, **anbox** use this revision
 
 ### Download and Build Kernel
 
@@ -231,12 +240,53 @@ make -j $(nproc)
   4. ./out/target/product/generic_arm64/ramdisk.img
 
 
+### Manage Android Virtual Device (AVD)
+
+Creating Android Virtual Device (AVD) with [android tool](http://www.android-doc.com/tools/devices/index.html)
+
+> The "android" command is deprecated.
+> For manual SDK, AVD, and project management, please use **Android Studio**.
+> For command-line tools, use **SDK tools** (**tools/bin/sdkmanager** and **tools/bin/avdmanager**)
+
+Updating SDK and downloading required system images (**SDK tools**):
+
+```Bash
+export ANDROID_SDK_HOME=/Volumes/AndroidBuild
+export ANDROID_SDK_ROOT=/Volumes/AndroidBuild/android-sdk
+# get available package list
+$ANDROID_SDK_ROOT/tools/bin/sdkmanager --list
+# install emulator, platform-tools, platform
+$ANDROID_SDK_ROOT/tools/bin/sdkmanager 'emulator'
+$ANDROID_SDK_ROOT/tools/bin/sdkmanager 'platform-tools'
+$ANDROID_SDK_ROOT/tools/bin/sdkmanager 'platforms;android-24'
+# install system-images
+$ANDROID_SDK_ROOT/tools/bin/sdkmanager 'system-images;android-24;google_apis;x86_64'
+$ANDROID_SDK_ROOT/tools/bin/sdkmanager 'system-images;android-24;google_apis;arm64-v8a'
+```
+
+Then run avdmanager to create new AVD:
+
+```Bash
+touch $ANDROID_SDK_HOME/.android/repositories.cfg
+# create avd with selected package, e.g., 'system-images;android-25;google_apis;x86_64'
+$ANDROID_SDK_ROOT/tools/bin/avdmanager create avd -n 'tablet_x64' -d 34 -k 'system-images;android-24;google_apis;x86_64'
+```
+
+> **NOTE 1**: AVD directories are searched in the order $ANDROID_AVD_HOME, $ANDROID_SDK_HOME/avd and $HOME/.android/avd
+> new avd device is saved in $ANDROID_SDK_HOME/avd directory
+
+use following command to list available avd, devices and targets:
+
+```Bash
+$ANDROID_SDK_ROOT/tools/bin/avdmanager list [avd | device | target]
+```
+
 ### Run Android Emulator
 
 In Linux:
 
 ```Bash
-$ANDROID_PATH/prebuilts/android-emulator/linux-x86_64/emulator -avd <avd-name>
+$ANDROID_PATH/prebuilts/android-emulator/linux-x86_64/emulator -avd <avd-name> -qemu -m 512 -enable-kvm
 ```
 
 In MacOS ([README-MacOS](./README-MacOS.md)):
@@ -245,7 +295,10 @@ In MacOS ([README-MacOS](./README-MacOS.md)):
 $ANDROID_PATH/prebuilts/android-emulator/darwin-x86_64/emulator -avd <avd-name>
 ```
 
-### Run Android in QEMU manually
+**NOTE** more [emulator]((http://www.android-doc.com/tools/help/emulator.html)) document is [here](http://www.androiddocs.com/tools/devices/emulator.html).
+
+
+### Run Android in QEMU manually (TODO)
 
 Make boot image and launch emulator:
 

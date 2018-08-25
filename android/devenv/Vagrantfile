@@ -2,7 +2,9 @@
 # vi: set ft=ruby :
 
 # Case-sensitive volume in host for building Android AOSP
-HOST_BUILD_VOLUME = "/Volumes/AndroidBuild"
+# HOST_BUILD_VOLUME = "/Volumes/AndroidBuild"
+# HOST_BUILD_VOLUME = "/Volumes/Build01"
+HOST_BUILD_VOLUME = "/Volumes/Build02"
 
 # This is the mount point for the sync_folders in the VM
 SRCMOUNT = "/opt/src"

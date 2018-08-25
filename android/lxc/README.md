@@ -5,9 +5,10 @@
 
 ## Useful references
 
-1. [Container Architecture](https://wiki.ubuntu.com/Touch/ContainerArchitecture)
+1. [Ubuntu Touch - Container Architecture](https://wiki.ubuntu.com/Touch/ContainerArchitecture)
    - Booting the Android LXC container
    - Using a 64bit Android Container
+   - Now mantained by [ubports](https://ubports.com/)
 
 2. [Anbox](https://anbox.io/)
    - [source - github](https://github.com/anbox/anbox)

@@ -8,9 +8,6 @@ refert to this [article](http://tryge.com/2013/06/15/build-android-from-source-m
 
 ```Bash
 brew install automake gpg git python
-# following is no need for XCode 9.4.1+
-# brew tap homebrew/dupes
-# brew install apple-gcc42
 ```
 
 ## Prepare a virtual disk to hold the android source
@@ -80,31 +77,9 @@ make -j 8
 
 Install Intel **HAXM** for CPU acceleration, from [here](https://github.com/intel/haxm/releases) and [docs](https://software.intel.com/en-us/articles/intel-hardware-accelerated-execution-manager-intel-haxm).
 
-Creating Android Virtual Device (AVD) with [android tool](http://www.android-doc.com/tools/devices/index.html)
-
-```Bash
-cd $ANDROID_PATH
-ANDROID_SWT=./prebuilts/tools/darwin-x86_64/swt ./prebuilts/devtools/tools/android
-```
-
-After updating SDK and downloading required images, just run to create new ACD:
-
-```Bash
-./prebuilts/devtools/tools/android avd
-```
-
-> new avd device is saved in host ~/.android/ directory
-
-use following command to list available avd, devices and targets:
-
-```Bash
-./prebuilts/devtools/tools/android list [avd | device | target]
-```
 
 Run emulator:
 
 ```Bash
-./prebuilts/android-emulator/darwin-x86_64/emulator -avd <avd-name>
+$ANDROID_SDK/emulator -avd <avd-name>
 ```
-
-- more emulator [document](http://www.android-doc.com/tools/help/emulator.html)

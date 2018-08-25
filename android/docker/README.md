@@ -8,9 +8,9 @@
     - [source](https://github.com/thyrlian/AndroidSDK)
     - **thyrlian/android-sdk-vnc**
 
-2. [How to run the Android Emulator on Amazon EC2 and Google Cloud](https://www.tuicool.com/articles/BFfmUj)
+2. [Building a Docker Image with an Android Emulator on AWS](http://typemismatch.com/building-a-docker-image-with-an-android-emulator-on-aws/)
 
-3. [Building a Docker Image with an Android Emulator on AWS](http://typemismatch.com/building-a-docker-image-with-an-android-emulator-on-aws/)
+3. [How to run the Android Emulator on Amazon EC2 and Google Cloud](https://www.tuicool.com/articles/BFfmUj)
 
 ### Guide - The Android Emulator and Upstream QEMU
 
@@ -52,10 +52,3 @@
 ### VPN
 
 1. [Kali VPN of DOOM (OpenVPN server)](https://github.com/binkybear/rock3tman)
-
-
-## References
-
-- [自定义Android模拟器](https://zhuanlan.zhihu.com/p/30537831)
-    - [kernel版本升级引起的Android无法启动](https://www.jianshu.com/p/3410f03494d1)
-    - [android 模拟器用3.18的内核无法启动，一直黑屏](https://segmentfault.com/q/1010000005652480)
