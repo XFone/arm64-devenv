@@ -12,8 +12,10 @@
 
 2. [Anbox](https://anbox.io/)
    - [source - github](https://github.com/anbox/anbox)
-   - [install](https://github.com/anbox/anbox/blob/master/docs/install.md)
-   - [build android](https://github.com/anbox/anbox/blob/master/docs/build-android.md)
+   - [Overview of Anbox runtime](https://github.com/anbox/anbox/blob/master/docs/runtime-setup.md)
+   - [Install](https://github.com/anbox/anbox/blob/master/docs/install.md)
+    - [Install Anbox with snap](https://docs.anbox.io/userguide/install.html)
+   - [Build android](https://github.com/anbox/anbox/blob/master/docs/build-android.md)
 
 3. [how should I run android in a linux container](https://stackoverflow.com/questions/20680717/how-should-i-run-android-in-a-linux-container-lxc)
     - [Ubuntu Touch runs Android inside a container](https://wiki.ubuntu.com/Touch/ContainerArchitecture)
