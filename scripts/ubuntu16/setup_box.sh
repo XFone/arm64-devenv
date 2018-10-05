@@ -40,7 +40,7 @@ LANG=en_US.UTF-8
 LANGUAGE=en_US:en
 LC_CTYPE=C
 END
-locale-gen
+locale-gen en_US.UTF-8
 
 # Update apt source (in China) : see https://www.linuxidc.com/Linux/2017-01/139458.htm
 cp /etc/apt/sources.list /etc/apt/sources.list.backup

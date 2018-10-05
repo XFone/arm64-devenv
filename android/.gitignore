@@ -2,5 +2,6 @@
 */*.img
 */*.qcow2
 */*.log
+log
 .vagrant
 .DS_Store

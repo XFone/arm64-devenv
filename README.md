@@ -28,3 +28,13 @@
 
 - See [android in docker](./android/docker/README.md)
 
+## ARM32 and ARM32
+
+- ARM Architectures
+    - eabi: embedded applicaion binary interface
+    - armel: arm eabi little endian, softfp
+    - armhf: arm hard float
+    - arm64: hard float
+  
+- [How to run armhf executables on an arm64 system](https://askubuntu.com/questions/928249/how-to-run-armhf-executables-on-an-arm64-system)
+    + Arm32 support is optional on arm64. In practice, there is only one arm64 CPU that omits legacy arm32 instruction set support - _Cavium ThunderX_.
