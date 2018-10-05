@@ -4,8 +4,8 @@
 MYPATH=$(dirname $(readlink -f $0))
 
 # Customized settings
-MEM=2048M
-SMP=2
+MEM=6144M
+SMP=4
 CPU=cortex-a57
 MAC='52:54:00:09:a4:38'
 SSH=20022
