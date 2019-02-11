@@ -35,7 +35,7 @@ mv /etc/localtime /etc/localtime.bak
 ln -sf /usr/share/zoneinfo/$TZ /etc/localtime
 
 # Set language
-cat > /etc/environment <<END
+cat >> /etc/environment <<END
 LANG=en_US.UTF-8
 LANGUAGE=en_US:en
 LC_CTYPE=C

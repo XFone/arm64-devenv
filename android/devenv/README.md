@@ -29,3 +29,9 @@ vagrant ssh
 ```
 
 * Next step: see [Download and Build Android kernel](../README.md#Android%20Kernel)
+
+## 3. Usbserial in ubuntu16
+
+```Bash
+sudo apt-get install linux-image-extra-virtual
+```

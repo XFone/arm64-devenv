@@ -38,6 +38,8 @@ pre:not(.hljs), pre.hljs code > div {
 Table of Contents
 - [Android](#android)
     - [Android SDK and NDK](#android-sdk-and-ndk)
+        - [Compile with Android NDK](#compile-with-android-ndk)
+        - [Run shell in android](#run-shell-in-android)
     - [Android Kernel](#android-kernel)
         - [Which Kernel Branch to Use](#which-kernel-branch-to-use)
         - [Download and Build Kernel](#download-and-build-kernel)
@@ -69,6 +71,17 @@ export USE_CCACHE=1
 export CCACHE_DIR=<path-to-your-cache-directory>
 prebuilt/linux-x86/ccache/ccache -M 50G
 ```
+
+### Compile with Android NDK
+
+- [Android 使用NDK编译二进制文件并运行](https://blog.csdn.net/u014088294/article/details/49924967)
+
+### Run shell in android
+
+- [Run BASH script in Android](https://stackoverflow.com/questions/8094562/how-to-run-bash-script-in-my-android)
+    ```Bash
+    #!/system/bin/sh
+    ```
 
 ## Android Kernel
 
@@ -239,6 +252,7 @@ make -j $(nproc)
   3. ./out/target/product/generic_arm64/userdata.img
   4. ./out/target/product/generic_arm64/ramdisk.img
 
+* use [ccache](https://blog.csdn.net/zengrunxiu/article/details/80783590)
 
 ### Manage Android Virtual Device (AVD)
 
